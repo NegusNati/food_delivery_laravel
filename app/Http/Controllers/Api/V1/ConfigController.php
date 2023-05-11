@@ -34,11 +34,15 @@ class ConfigController extends Controller
             'lng' => 'required',
         ]);
 
-        if ($validator->errors()->count()>0) {
-            return response()->json(['errors' => Helpers::error_processor($validator)], 403);
-        }
-        $point = new Point($request->lat,$request->lng);
-        $zones = Zone::contains('coordinates', $point)->latest()->get();
+        // if ($validator->errors()->count()>0) {
+        //     return response()->json(['errors' => Helpers::error_processor($validator)], 403);
+        // }
+        // $point = new Point($request->lat,$request->lng);
+        // $zones = Zone::contains('coordinates', $point)->latest()->get();
+
+//the above is for trying out
+
+
        /* if(count($zones)<1)
         {
             return response()->json(['message'=>trans('messages.service_not_available_in_this_area_now')], 404);
