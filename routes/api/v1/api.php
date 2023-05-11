@@ -15,13 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Api\V1'], function () {
 
+    //to get Products
        Route::group(['prefix' => 'products'], function () {
         Route::get('popular', 'ProductController@get_popular_products');
          Route::get('recommended', 'ProductController@get_recommended_products');
          Route::get('drinks', 'ProductController@get_drinks');
         //   Route::get('test', 'ProductController@test_get_recommended_products');
     });
-        Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
+
+    //Registration and login
+    Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('register', 'CustomerAuthController@register');
         Route::post('login', 'CustomerAuthController@login');
         });

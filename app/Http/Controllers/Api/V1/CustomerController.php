@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class CustomerController extends Controller{
-    
+
      public function address_list(Request $request)
     {
         return response()->json(CustomerAddress::where('user_id', $request->user()->id)->latest()->get(), 200);
@@ -18,7 +18,7 @@ class CustomerController extends Controller{
     public function info(Request $request)
     {
         $data = $request->user();
-        
+
         $data['order_count'] =0;//(integer)$request->user()->orders->count();
         $data['member_since_days'] =(integer)$request->user()->created_at->diffInDays();
         //unset($data['orders']);
@@ -30,7 +30,7 @@ class CustomerController extends Controller{
             'contact_person_name' => 'required',
             'contact_person_number' => 'required',
             'address' => 'required',
-          
+
         ]);
 
         if ($validator->fails()) {
