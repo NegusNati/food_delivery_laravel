@@ -6,14 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "chapa/chapa-laravel": "dev-main",
         "codingyu/ueditor": "^3.0.0",
         "encore/laravel-admin": "1.*",
         "fruitcake/laravel-cors": "^2.0",
         "grimzy/laravel-mysql-spatial": "^4.0",
         "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework" : "^9.0",
+        "laravel/framework": "^8.0",
         "laravel/passport": "^10.2",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "^2.1",
         "laravel/tinker": "^2.8"
     },
     "require-dev": {
@@ -23,6 +24,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "phpunit/phpunit": "^9.5.10"
+
     },
     "autoload": {
         "files": [
