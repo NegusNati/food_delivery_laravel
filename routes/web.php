@@ -15,19 +15,19 @@ use Illuminate\Support\Facades\Route;
 
 
 
-// The page that displays the payment form
-Route::get('/', function () {
-    return view('welcome');
-});
+// // The page that displays the payment form
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 
 
-// The route that the button calls to initialize payment
+// // The route that the button calls to initialize payment
 
-Route::post('pay', 'ChapaController@initialize')->name('pay');
+// Route::post('pay', 'ChapaController@initialize')->name('pay');
 
-// The callback url after a payment
-Route::get('callback/{reference}', 'ChapaController@callback')->name('callback');
+// // The callback url after a payment
+// Route::get('callback/{reference}', 'ChapaController@callback')->name('callback');
 
 
 
@@ -41,3 +41,16 @@ Route::get('callback/{reference}', 'ChapaController@callback')->name('callback')
 // Route::get('paypal-status', 'PaypalPaymentController@getPaymentStatus')->name('paypal-status');
 // Route::get('payment-success', 'PaymentController@success')->name('payment-success');
 // Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::group(['prefix' => 'payment-mobile'], function () {
+    Route::get('/', 'PaymentController@payment')->name('payment-mobile');
+    Route::get('set-payment-method/{name}', 'PaymentController@set_payment_method')->name('set-payment-method');
+});
+Route::post('pay-paypal', 'PaypalPaymentController@payWithpaypal')->name('pay-paypal');
+Route::get('paypal-status', 'PaypalPaymentController@getPaymentStatus')->name('paypal-status');
+Route::get('payment-success', 'PaymentController@success')->name('payment-success');
+Route::get('payment-fail', 'PaymentController@fail')->name('payment-fail');
