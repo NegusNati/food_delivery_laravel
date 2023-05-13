@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
@@ -29,11 +29,11 @@
 </form>
         </div>
     </body>
-</html> --}}
+</html>
 
 
-
-@php($currency=\App\Models\BusinessSetting::where(['key'=>'currency'])->first()->value)
+{{--
+@php($currency=\App\Models\Business_settings::where(['key'=>'currency'])->first()->value)
 
     <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -48,7 +48,7 @@
     <meta name="author" content="">
     <!-- Viewport-->
     {{--<meta name="_token" content="{{csrf_token()}}">--}}
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{-- <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon and Touch Icons-->
     <link rel="shortcut icon" href="favicon.ico">
     <!-- Font -->
@@ -83,7 +83,7 @@
                 <h1>Payment method</h1>
             </center>
         </div>
-        @php($order=\App\Models\Order::find(session('order_id')))
+        @php($order=\App\Models\Orders::find(session('order_id')))
         <section class="col-lg-12">
             <div class="checkout_details mt-3">
                 <div class="row">
@@ -128,4 +128,4 @@
 {!! Toastr::message() !!}
 
 </body>
-</html>
+</html> --}}
