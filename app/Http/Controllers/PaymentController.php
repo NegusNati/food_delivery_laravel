@@ -13,7 +13,7 @@ class PaymentController extends Controller
     {
 
         if ($request->has('callback')) {
-            Orders::where(['id' => $request->order_id])->update(['callback' => $request['callback']]);
+            Order::where(['id' => $request->order_id])->update(['callback' => $request['callback']]);
         }
 
         session()->put('customer_id', $request['customer_id']);
@@ -21,7 +21,7 @@ class PaymentController extends Controller
 
         $customer = User::find($request['customer_id']);
 
-        $order = Orders::where(['id' => $request->order_id, 'user_id' => $request['customer_id']])->first();
+        $order = Order::where(['id' => $request->order_id, 'user_id' => $request['customer_id']])->first();
 
         if (isset($customer) && isset($order)) {
             $data = [
@@ -38,7 +38,7 @@ class PaymentController extends Controller
 
     public function success()
     {
-        $order = Orders::where(['id' => session('order_id'), 'user_id'=>session('customer_id')])->first();
+        $order = Order::where(['id' => session('order_id'), 'user_id'=>session('customer_id')])->first();
         /*if ($order->callback != null) {
             return redirect($order->callback . '&status=success');
         }
@@ -48,7 +48,7 @@ class PaymentController extends Controller
 
     public function fail()
     {
-        $order = Orders::where(['id' => session('order_id'), 'user_id'=>session('customer_id')])->first();
+        $order = Order::where(['id' => session('order_id'), 'user_id'=>session('customer_id')])->first();
         /*if ($order->callback != null) {
             return redirect($order->callback . '&status=fail');
         }
