@@ -26,7 +26,7 @@ Route::group(['namespace' => 'Api\V1'], function () {
     //Registration and login
     Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
         Route::post('register', 'CustomerAuthController@register');
-        Route::post('login', 'CustomerAuthController@login');
+        Route::post('login', 'CustomerAuthController@login')->name('login');
         });
 
 
@@ -54,6 +54,10 @@ Route::group(['namespace' => 'Api\V1'], function () {
             Route::get('track', 'OrderController@track_order');
             Route::put('payment-method', 'OrderController@update_payment_method');
         });
+
+
+
+
             });
 
         Route::group(['prefix' => 'config'], function () {

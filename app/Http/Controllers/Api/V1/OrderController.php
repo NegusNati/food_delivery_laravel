@@ -16,7 +16,8 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_amount' => 'required',
-            'address' => 'required_if:order_type,delivery',
+            // 'address' => 'required_if:order_type,delivery',
+            'address' => 'required',
             //'longitude' => 'required_if:order_type,delivery',
            // 'latitude' => 'required_if:order_type,delivery',
         ]);
@@ -36,33 +37,33 @@ class OrderController extends Controller
         $product_price = 0;
 
         $order = new Order();
-        $order->id = 100000 + Order::all()->count() + 1; //checked
-        $order->user_id = $request->user()->id; //checked 
-        $order->order_amount = $request['order_amount']; //checked 
+        $order->id = 100001 + Order::all()->count() + 1; //checked
+        $order->user_id = $request->user()->id; //checked
+        $order->order_amount = $request['order_amount']; //checked
         $order->order_note = $request['order_note']; //checked
         $order->delivery_address = json_encode($address); //checked
         $order->otp = rand(1000, 9999); //checked
         $order->pending = now(); //checked
         $order->created_at = now(); //checked
         $order->updated_at = now();//checked
-        
+
         foreach ($request['cart'] as $c) {
-     
+
                 $product = Food::find($c['id']); //checked
                 if ($product) {
-            
-                    $price = $product['price']; //checked 
-                    
+
+                    $price = $product['price']; //checked
+
                     $or_d = [
                         'food_id' => $c['id'], //checked
-                        'food_details' => json_encode($product), 
+                        'food_details' => json_encode($product),
                         'quantity' => $c['quantity'], //checked
                         'price' => $price, //checked
                         'created_at' => now(), //checked
-                        'updated_at' => now(), //checked 
-                        'tax_amount' => 10.0
+                        'updated_at' => now(), //checked
+                        'tax_amount' => 5.0
                     ];
-                    
+
                     $product_price += $price*$or_d['quantity'];
                     $order_details[] = $or_d;
                 } else {
@@ -80,7 +81,7 @@ class OrderController extends Controller
             $total_price= $product_price;
             $order->order_amount = $total_price;
             $order->save();
-            
+
             foreach ($order_details as $key => $item) {
                 $order_details[$key]['order_id'] = $order->id;
             }
@@ -94,7 +95,7 @@ class OrderController extends Controller
                 'message' => trans('messages.order_placed_successfully'),
                 'order_id' =>  $save_order,
                 'total_ammount' => $total_price,
-                
+
             ], 200);
         } catch (\Exception $e) {
             return response()->json([$e], 403);
@@ -110,11 +111,11 @@ class OrderController extends Controller
     public function get_order_list(Request $request)
     {
         $orders = Order::withCount('details')->where(['user_id' => $request->user()->id])->get()->map(function ($data) {
-            $data['delivery_address'] = $data['delivery_address']?json_decode($data['delivery_address']):$data['delivery_address'];   
+            $data['delivery_address'] = $data['delivery_address']?json_decode($data['delivery_address']):$data['delivery_address'];
 
             return $data;
         });
         return response()->json($orders, 200);
     }
-    
+
 }
