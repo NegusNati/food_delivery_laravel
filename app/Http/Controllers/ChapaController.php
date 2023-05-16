@@ -109,7 +109,8 @@ class ChapaController extends Controller
         ->update([
             // 'transaction_reference' =>  $reference,
             // 'payment_method' => 'Chapa',
-            'order_status' => 'success',
+            'payment_status' => 'paid',
+            'order_status' => 'pending',
             'failed' => now(),
             'updated_at' => now()
         ]);
