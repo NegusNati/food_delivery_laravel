@@ -39,19 +39,20 @@ class OrderAdmin extends AdminController
         $grid->column('user_id', __('User Id'));
         $grid->column('order_amount', __('Order Amount'));
         $grid->column('order_status', __('Order Status'));
-        $grid->column('delivered', __('Delivered'));
+        $grid->column('delivered', __('Delivered'))->label();
         $grid->column('accepted', __('Customer Name'));
-        $grid->column('schduled', __('Customer Number'));
-        $grid->column('processing', __('Customer Address'));
+        $grid->column('confirmed', __('Customer Number'));
+        $grid->column('refunded', __('Location'));
+        // $grid->column('processing', __('Customer Address'));
         $grid->column('handover', __('Customer Longitude'));
-        $grid->column('pending', __('Customer Latitude'));
-        $grid->column('delivery_address', __('delivery_address'))->style('max-width:200px;word-break:break-all;')->display(function ($val){
-            return substr($val,0,30);
-        });
+        $grid->column('picked_up', __('Customer Latitude'));
+        // $grid->column('delivery_address', __('delivery_address'))->style('max-width:200px;word-break:break-all;')->display(function ($val){
+        //     return substr($val,0,30);
+        // });
 
 
         $grid->column('created_at', __('Created_At'));
-        $grid->column('updated_at', __('Updated_at'));
+        // $grid->column('updated_at', __('Updated_at'));
 
 
         return $grid;

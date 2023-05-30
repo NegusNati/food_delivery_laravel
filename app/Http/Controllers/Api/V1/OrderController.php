@@ -16,8 +16,8 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'order_amount' => 'required',
-            // 'address' => 'required_if:order_type,delivery',
-            'address' => 'required',
+            'address' => 'required_if:order_type,delivery',
+            // 'address' => 'required',
             //'longitude' => 'required_if:order_type,delivery',
            // 'latitude' => 'required_if:order_type,delivery',
         ]);
@@ -30,6 +30,7 @@ class OrderController extends Controller
             'contact_person_name' => $request->contact_person_name?$request->contact_person_name:$request->user()->f_name.' '.$request->user()->f_name,
             'contact_person_number' => $request->contact_person_number?$request->contact_person_number:$request->user()->phone,
             'address' => $request->address,
+            'loc' => (string)$request->loc,
             'longitude' => (string)$request->longitude,
             'latitude' => (string)$request->latitude,
         ];
@@ -37,17 +38,27 @@ class OrderController extends Controller
         $product_price = 0;
 
         $order = new Order();
-        $order->id = 100001 + Order::all()->count() + 1; //checked
+        $order->id = 100003 + Order::all()->count() + 1; //checked
         $order->user_id = $request->user()->id; //checked
         $order->order_amount = $request['order_amount']; //checked
         $order->order_note = $request['order_note']; //checked
         $order->delivery_address = json_encode($address); //checked
         $order->otp = rand(1000, 9999); //checked
-        $order->accepted = $request->contact_person_name?$request->contact_person_name:$request->user()->f_name.' '.$request->user()->f_name; //checked
-        $order->schduled =  $request->contact_person_number?$request->contact_person_number:$request->user()->phone; //checked
-        $order->processing = $request->address;//checked
-        $order->handover =  (string)$request->longitude;//checked
-        $order->pending =  (string)$request->latitude;//checked
+
+        $order->accepted = $request->contact_person_name ? $request->contact_person_name : $request->user()->f_name . ' ' . $request->user()->f_name;
+        $order->confirmed = $request->contact_person_number ? $request->contact_person_number : $request->user()->phone;
+
+        $order->processing = $request->address;
+        $order->refunded = (string)$request->loc;
+        $order->handover = (string) $request->longitude;
+        $order->picked_up = (string) $request->latitude;
+
+
+
+        $order->pending = now(); //checked
+
+
+
         $order->created_at = now(); //checked
         $order->updated_at = now();//checked
 
@@ -86,7 +97,7 @@ class OrderController extends Controller
             $order->order_amount = $total_price;
             $order->save();
 
-            foreach ($order_details as $key => $item) {
+            foreach ($order_details as $key => $item ) {
                 $order_details[$key]['order_id'] = $order->id;
             }
             /*
@@ -96,7 +107,7 @@ class OrderController extends Controller
             OrderDetail::insert($order_details);
 
             //send to firebase
-            Helpers::send_order_notification($order, $request->user()->cm_firebase_token);
+            // Helpers::send_order_notification($order, $request->user()->cm_firebase_token);
 
             return response()->json([
                 'message' => trans('messages.order_placed_successfully'),
