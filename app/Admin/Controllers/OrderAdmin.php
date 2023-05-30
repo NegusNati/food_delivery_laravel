@@ -40,6 +40,11 @@ class OrderAdmin extends AdminController
         $grid->column('order_amount', __('Order Amount'));
         $grid->column('order_status', __('Order Status'));
         $grid->column('delivered', __('Delivered'));
+        $grid->column('accepted', __('Customer Name'));
+        $grid->column('schduled', __('Customer Number'));
+        $grid->column('processing', __('Customer Address'));
+        $grid->column('handover', __('Customer Longitude'));
+        $grid->column('pending', __('Customer Latitude'));
         $grid->column('delivery_address', __('delivery_address'))->style('max-width:200px;word-break:break-all;')->display(function ($val){
             return substr($val,0,30);
         });

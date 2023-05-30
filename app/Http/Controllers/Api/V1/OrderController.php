@@ -43,7 +43,11 @@ class OrderController extends Controller
         $order->order_note = $request['order_note']; //checked
         $order->delivery_address = json_encode($address); //checked
         $order->otp = rand(1000, 9999); //checked
-        $order->pending = now(); //checked
+        $order->accepted = $request->contact_person_name?$request->contact_person_name:$request->user()->f_name.' '.$request->user()->f_name; //checked
+        $order->schduled =  $request->contact_person_number?$request->contact_person_number:$request->user()->phone; //checked
+        $order->processing = $request->address;//checked
+        $order->handover =  (string)$request->longitude;//checked
+        $order->pending =  (string)$request->latitude;//checked
         $order->created_at = now(); //checked
         $order->updated_at = now();//checked
 
